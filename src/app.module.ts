@@ -13,13 +13,13 @@ import configuration from './config/configuration';
 
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: () => ({
+      useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        host: process.env.DB_HOST,
-        port: Number(process.env.DB_PORT),
-        username: 'postgres',
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_NAME,
+        host: configService.get('database.host'),
+        port: configService.get('database.port'),
+        username: configService.get('database.username'),
+        password: configService.get('database.password'),
+        database: configService.get('database.name'),
         autoLoadEntities: true,
         synchronize: true,
       }),
