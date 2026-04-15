@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+  JoinTable,
+} from 'typeorm';
+import { Article } from '../article.entity/article.entity';
 
 @Entity()
 export class User {
@@ -6,11 +13,15 @@ export class User {
   id!: number;
 
   @Column()
+  username!: string;
+
+  @Column()
   email!: string;
 
   @Column()
   password!: string;
 
-  @Column()
-  username!: string;
+  @ManyToMany(() => Article, (article) => article.favoritedBy)
+  @JoinTable()
+  favoriteArticles!: Article[];
 }
