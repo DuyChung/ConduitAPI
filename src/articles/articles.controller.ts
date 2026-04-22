@@ -7,7 +7,7 @@ export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) {}
 
   @Get()
-  findAll(@Query() query: GetArticlesQueryDto) {
-    return this.articlesService.findAll(query);
+  getPageArticles(@Query() query: GetArticlesQueryDto) {
+    return this.articlesService.findPaginated(query);
   }
 }

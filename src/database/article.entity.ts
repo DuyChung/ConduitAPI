@@ -1,10 +1,13 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
-import { User } from '../user.entity/user.entity';
+import { User } from './user.entity';
 
 @Entity()
 export class Article {
@@ -31,4 +34,13 @@ export class Article {
 
   @ManyToMany(() => User, (user) => user.favoriteArticles)
   favoritedBy!: User[];
+
+  @ManyToOne(() => User, (user) => user.articles)
+  author!: User;
+
+  @CreateDateColumn()
+  createdAt!: Date;
+
+  @UpdateDateColumn()
+  updatedAt!: Date;
 }

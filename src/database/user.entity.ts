@@ -4,8 +4,9 @@ import {
   ManyToMany,
   PrimaryGeneratedColumn,
   JoinTable,
+  OneToMany,
 } from 'typeorm';
-import { Article } from '../article.entity/article.entity';
+import { Article } from './article.entity';
 
 @Entity()
 export class User {
@@ -24,4 +25,7 @@ export class User {
   @ManyToMany(() => Article, (article) => article.favoritedBy)
   @JoinTable()
   favoriteArticles!: Article[];
+
+  @OneToMany(() => Article, (article) => article.author)
+  articles!: Article[];
 }
