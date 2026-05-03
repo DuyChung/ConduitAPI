@@ -1,7 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
+import { ArticlesModule } from './articles/articles.module';
 import configuration from './config/configuration';
+import { ProfilesModule } from './profiles/profiles.module';
 
 @Module({
   imports: [
@@ -24,6 +27,11 @@ import configuration from './config/configuration';
         synchronize: true,
       }),
     }),
+
+    AuthModule,
+
+    ArticlesModule,
+    ProfilesModule,
   ],
 })
 export class AppModule {}
