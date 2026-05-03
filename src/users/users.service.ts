@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
-import { UserRequestDto } from './dtos/user-request.dto';
-import { User } from '../database/user.entity/user.entity';
+import { CreateUserDto } from './dtos/create-user.dto';
+import { LoginRequestDto } from './dtos/login-request.dto';
+import { UserResponseDto } from './dtos/user-response.dto';
+import { User } from '../database/user.entity';
 
 @Injectable()
 export class UsersService {
@@ -12,13 +15,43 @@ export class UsersService {
     private readonly userRepo: Repository<User>,
   ) {}
 
-  async createUser(request: UserRequestDto) {
+  async createUser(dto: CreateUserDto): Promise<UserResponseDto> {
+    const hashedPassword = await bcrypt.hash(dto.password, 10);
+
     const user = this.userRepo.create({
-      email: request.email,
-      password: request.password,
-      username: request.username,
+      email: dto.email,
+      password: hashedPassword,
+      username: dto.username,
     });
 
-    return await this.userRepo.save(user);
+    const savedUser = await this.userRepo.save(user);
+
+    return {
+      id: savedUser.id,
+      email: savedUser.email,
+      username: savedUser.username,
+    };
+  }
+
+  async login(dto: LoginRequestDto): Promise<UserResponseDto> {
+    const user = await this.userRepo.findOne({
+      where: { email: dto.email },
+    });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const isMatch = await bcrypt.compare(dto.password!, user.password);
+
+    if (!isMatch) {
+      throw new Error('Invalid password');
+    }
+
+    return {
+      id: user.id,
+      email: user.email,
+      username: user.username,
+    };
   }
 }
