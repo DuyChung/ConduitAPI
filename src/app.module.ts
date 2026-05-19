@@ -4,6 +4,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { ArticlesModule } from './articles/articles.module';
 import configuration from './config/configuration';
+import { ProfilesModule } from './profiles/profiles.module';
+import { CommentsModule } from './comments/comments.module';
+import { TagsModule } from './tags/tags.module';
 
 @Module({
   imports: [
@@ -23,13 +26,16 @@ import configuration from './config/configuration';
         password: configService.get('database.password'),
         database: configService.get('database.name'),
         autoLoadEntities: true,
-        synchronize: true,
+        synchronize: false,
       }),
     }),
 
     AuthModule,
 
     ArticlesModule,
+    ProfilesModule,
+    CommentsModule,
+    TagsModule,
   ],
 })
 export class AppModule {}
