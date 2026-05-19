@@ -6,8 +6,10 @@ import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { LoginRequestDto } from './dtos/login-request.dto';
 import { UserResponseDto } from './dtos/user-response.dto';
+
 import { User } from '../database/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
+
 
 @Injectable()
 export class UsersService {
