@@ -6,13 +6,19 @@ import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { LoginRequestDto } from './dtos/login-request.dto';
 import { UserResponseDto } from './dtos/user-response.dto';
+<<<<<<< HEAD
 import { User } from '../database/user.entity';
+=======
+import { User } from '../database/entities/user.entity';
+import { JwtService } from '@nestjs/jwt';
+>>>>>>> profile-task
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepo: Repository<User>,
+    private readonly jwtService: JwtService,
   ) {}
 
   async createUser(dto: CreateUserDto): Promise<UserResponseDto> {
@@ -33,7 +39,7 @@ export class UsersService {
     };
   }
 
-  async login(dto: LoginRequestDto): Promise<UserResponseDto> {
+  async login(dto: LoginRequestDto) {
     const user = await this.userRepo.findOne({
       where: { email: dto.email },
     });
@@ -48,10 +54,16 @@ export class UsersService {
       throw new Error('Invalid password');
     }
 
+    const token = this.jwtService.sign({
+      sub: user.id,
+      email: user.email,
+    });
+
     return {
       id: user.id,
       email: user.email,
       username: user.username,
+      accessToken: token,
     };
   }
 }

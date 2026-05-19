@@ -3,10 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Like, Repository } from 'typeorm';
 import slugify from 'slugify';
 
-import { Article } from '../database/article.entity';
 import { CreateArticleDto } from './dtos/create-article.dto';
 import { GetArticlesQueryDto } from './dtos/get-articles-query.dto';
 import { ArticleResponseDto } from './dtos/article-response.dto';
+import { Article } from 'src/database/entities/article.entity';
 
 @Injectable()
 export class ArticlesService {
