@@ -6,8 +6,17 @@ import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { LoginRequestDto } from './dtos/login-request.dto';
 import { UserResponseDto } from './dtos/user-response.dto';
+<<<<<<< HEAD
 import { User } from '../database/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
+=======
+<<<<<<< HEAD
+import { User } from '../database/user.entity';
+=======
+import { User } from '../database/entities/user.entity';
+import { JwtService } from '@nestjs/jwt';
+>>>>>>> profile-task
+>>>>>>> 876b02940b34357ae5d84679074aaf6ad39bcd6b
 
 @Injectable()
 export class UsersService {
